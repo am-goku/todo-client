@@ -1,7 +1,7 @@
 import axios from "axios";
-import { accessToken, refreshToken } from "../const/localStorage";
-import { BASE_URL } from "../const/site";
-import { authUrl } from "../const/url";
+import { accessToken, refreshToken } from "../../const/localStorage";
+import { BASE_URL } from "../../const/site";
+import { authUrl } from "../../const/url";
 
 //auth methods
 export const tokenRefresh = (error) => {

@@ -1,6 +1,7 @@
 export const userUrl = {
     login: "/user/login-user",
     signup: "/user/create-account",
+    get: "/user/get-user",
 }
 
 
