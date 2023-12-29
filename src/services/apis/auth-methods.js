@@ -14,7 +14,7 @@ export const tokenRefresh = (error) => {
           error.config._retry = true;
 
           axios
-            .get(`${BASE_URL}/api${authUrl?.refresh}`, null, {
+            .get(`${BASE_URL}/api${authUrl?.refresh}`, {
               headers: {
                 Authorization: refresh,
               },

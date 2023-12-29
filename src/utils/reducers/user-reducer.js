@@ -1,12 +1,10 @@
 import {createSlice} from "@reduxjs/toolkit"
-import { getUser } from "../../services/apis/user-methods";
-
 
 const userSlice = createSlice({
     name: "user",
     initialState: {
         userData: null,
-        userEvents: null
+        userEvents: [],
     },
     reducers: {
         setReduxUser: (state, action) => {
@@ -19,27 +17,26 @@ const userSlice = createSlice({
         },
         setUserEvents: (state, action) => {
             state.userEvents = action.payload;
+        },
+        updateUserEvents: (state, action) => {
+          state.userEvents.push(action.payload);
+        },
+
+        deleteOneEvent: (state, action) => {
+          const eventId = action.payload;
+          const events = state.userEvents;
+
+          const newEvents = events.filter((event) => {
+            return event?._id !== eventId;
+          })
+
+          state.userEvents = newEvents;
+          
         }
     }
 })
 
 
-
-export const authenticateUser = () => async (dispatch) => {
-  return new Promise((resolve, reject) => {
-    getUser()
-      .then((res) => {
-        dispatch(setReduxUser(res));
-        resolve(true);
-      })
-      .catch((err) => {
-        dispatch(removeReduxUser());
-        reject(false);
-      });
-  });
-};
-
-
-export const {setReduxUser, removeReduxUser, setUserEvents} = userSlice.actions;
+export const {setReduxUser, removeReduxUser, setUserEvents, updateUserEvents, deleteOneEvent} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userLogin } from "../services/apis/user-methods";
 import { accessToken, refreshToken } from "../const/localStorage";
-import authenticate from "../middleware/function/Authenticator";
+import { setReduxUser } from "../utils/reducers/user-reducer";
 
 function Login() {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state?.user?.userData);
   const emRef = useRef();
   const pwRef = useRef();
@@ -34,7 +34,7 @@ function Login() {
         .then((res) => {
           localStorage.setItem(accessToken, res?.tokens?.accessToken);
           localStorage.setItem(refreshToken, res?.tokens?.refreshToken);
-          authenticate()
+          dispatch(setReduxUser(res?.user))
           navigate("/");
         })
         .catch((err) => {

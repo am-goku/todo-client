@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { checkEmail } from "../hooks/formValidator";
@@ -17,14 +17,21 @@ function Signup() {
     }
   });
 
+  const emRef = useRef();
+  const nameRef = useRef();
+  const pwRef = useRef();
 
-  const [name, setName] = useState(null);
-  const [email, setEmail] = useState(null);
+
   const [error, setError] = useState(null)
-  const [password, setPassword] = useState(null);
 
 
   const handleSubmit = () => {
+
+    const name = nameRef.current.value.trim();
+    const email = emRef.current.value.trim();
+    const password = pwRef.current.value.trim();
+
+
     if(name && email && password) {
       if(checkEmail(email)){
         signup({ name, email, password })
@@ -53,30 +60,30 @@ function Signup() {
 
         <div className="bulgeBox flex flex-col gap-5 rounded items-center">
           <input
+          ref={nameRef}
             type="text"
             name="name"
             id="name"
             placeholder="Full Name"
             className="rounded border-gray-400 h-10 px-3"
-            onClick={(e) => setName(e.target.value.trim())}
             required
           />
           <input
+          ref={emRef}
             type="email"
             name="email"
             id="email"
             placeholder="Email"
             className="rounded border-gray-400 h-10 px-3"
-            onClick={(e) => setEmail(e.target.value.trim())}
             required
           />
           <input
+          ref={pwRef}
             type="password"
             name="password"
             id="password"
             placeholder="Passoword"
             className="rounded border-gray-400 h-10 px-3"
-            onClick={(e) => setPassword(e.target.value.trim())}
             required
           />
           {error && (

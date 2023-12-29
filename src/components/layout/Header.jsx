@@ -1,11 +1,19 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { removeReduxUser } from '../../utils/reducers/user-reducer';
 
 function Header() {
     const navigate = useNavigate();
-    const {id} = useParams()
-
+    const dispatch = useDispatch();
     const location = useLocation();
+
+    const user = useSelector((state => state?.user?.userData))
+
+
+    const logout = () => {
+      dispatch(removeReduxUser())
+    }
 
   return (
     <>
@@ -20,17 +28,15 @@ function Header() {
             Home
           </span>
           <span
-            onClick={() => navigate("/event/:id")}
-            className={`font-semibold hover:text-red-500 cursor-pointer ${
-              location?.pathname === "/event/"+id && "text-gray-300"
-            }`}
+            onClick={logout}
+            className={`font-semibold hover:text-red-500 cursor-pointer`}
           >
-            Event
+            Logout
           </span>
         </div>
         <div className="ml-auto mr-10 flex justify-center items-center gap-7">
           <span className="text-black font-semibold text-xl hidden md:flex">
-            Gokul krishna
+            {user?.name}
           </span>
           <div className="bg-white aspect-square w-10 rounded-full"></div>
         </div>

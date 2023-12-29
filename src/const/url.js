@@ -7,12 +7,13 @@ export const userUrl = {
 
 export const taskUrl = {
     newEvent: "/task/create-event",
-    deleteEvent: "/task/delete-event",
+    deleteEvent: (eventId) => `/task/delete-event/${eventId}`,
     addTask: "/task/add-task",
-    deleteTask: "/task/delete-task",
+    deleteTask: (taskId)=> `/task/delete-task/${taskId}`,
     getEvents: "/task/get-events",
-    getTasks: "/task/get-tasks",
-    clear: "/task/clear-tasks"
+    getTasks: (eventId) => `/task/get-tasks/${eventId}`,
+    clear: (eventId) => `/task/clear-tasks/${eventId}`,
+    getEvent: (id) => `/task/get-event/${id}`,
 }
 
 

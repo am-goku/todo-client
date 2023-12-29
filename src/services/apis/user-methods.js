@@ -1,6 +1,8 @@
+import axios from "axios";
 import { accessToken } from "../../const/localStorage";
 import { userUrl } from "../../const/url";
 import apiCall from "../apiCall";
+import { tokenRefresh } from "./auth-methods";
 
 //login
 export const userLogin = ({ email, password }) => {
@@ -31,12 +33,24 @@ export const signup = ({ name, email, password }) => {
 //fetch
 export const getUser = () => {
   return new Promise((resolve, reject) => {
-    apiCall("get", userUrl.get, {heasers: {Autherization: localStorage.getItem(accessToken)}})
+    axios.get(userUrl.get, {headers: {Autherization: localStorage.getItem(accessToken)}})
       .then((response) => {
         resolve(response);
+        console.log('hello');
       })
       .catch((err) => {
-        reject(err);
+        if(err.response.status === 401){
+          tokenRefresh(err)
+            .then((response) => {
+              resolve(response);
+            })
+            .catch((err) => {
+              localStorage.clear();
+              window.location.reload("/login");
+            });
+        } else {
+          reject(err);
+        }
       });
   });
 };
